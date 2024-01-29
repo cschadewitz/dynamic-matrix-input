@@ -24,7 +24,7 @@ jobs:
         with:
           ref: ${{ github.event.inputs.ref }}
       - id: setup_matrix
-        uses: ./actions/dynamic-matrix
+        uses: ./
         with:
           matrix_input: ${{ inputs.test-matrix-input }}
   test_matrix:
