@@ -21,5 +21,6 @@ runs:
       name: "Split matrix"
       shell: bash
       run: |
+        echo "test"
         input=${{ inputs.matrix_input }}
         echo "matrix=[\"${input//,/\",\"}\"]" >> $GITHUB_OUTPUT
