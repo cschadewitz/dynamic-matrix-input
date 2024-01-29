@@ -3,6 +3,9 @@ description: >
   Splits a comma-separated string into a Json array suitable 
   for using with fromJson() within a matrix strategy
 author: "Casey Schadewitz"
+branding:
+  icon: hash
+  color: purple
 inputs:
   matrix_input:
     description: "Matrix Input (comma-separated)"
