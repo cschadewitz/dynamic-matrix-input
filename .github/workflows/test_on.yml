@@ -1,0 +1,38 @@
+name: Test On (inputs.runs-on)
+
+on:
+  workflow_call:
+    inputs:
+      runs-on:
+        description: 'Runs on'
+        required: true
+        type: string
+      test-matrix-input:
+        description: 'Test matrix input (comma-separated)'
+        required: true
+        default: 'Hello,World,This,Is,A,Test'
+        type: string
+
+jobs:
+  setup_matrix:
+    runs-on: ${{ inputs.runs-on }}
+    outputs:
+      matrix: ${{ steps.setup_matrix.outputs.matrix_output }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref }}
+      - id: setup_matrix
+        uses: ./actions/dynamic-matrix
+        with:
+          matrix_input: ${{ inputs.test-matrix-input }}
+  test_matrix:
+    needs: setup_matrix
+    runs-on: ${{ inputs.runs-on }}
+    strategy:
+      matrix: 
+        word: ${{ fromJson(needs.setup_matrix.outputs.matrix) }}
+    steps:
+      - name: Test matrix
+        run: echo ${{ matrix.word }}

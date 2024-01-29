@@ -1,0 +1,25 @@
+name: dynamic-matrix-input
+description: >
+  Splits a comma-separated string into a Json array suitable 
+  for using with fromJson() within a matrix strategy
+author: "Casey Schadewitz"
+inputs:
+  matrix_input:
+    description: "Matrix Input (comma-separated)"
+    required: true
+    type: string
+
+outputs:
+  matrix_output:
+    description: "Matrix Output (Json Array)"
+    value: ${{ steps.split_matrix.outputs.matrix }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: split_matrix
+      name: "Split matrix"
+      shell: bash
+      run: |
+        input=${{ inputs.matrix_input }}
+        echo "matrix=[\"${input//,/\",\"}\"]" >> $GITHUB_OUTPUT
